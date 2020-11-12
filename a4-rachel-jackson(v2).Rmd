@@ -1,0 +1,63 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+```{r}
+library(nycflights13)
+library(tidyverse)
+view(flights)
+?flights
+```
+
+
+## Question 1
+
+#### Write a filter expression that returns all flights with an arrival delay of two hours or more
+
+```{r}
+arr_delay_2_hrs <- filter(flights, arr_delay >= 120 )
+arr_delay_2_hrs
+```
+
+## Question 2
+
+#### Write a filter expression that returns all flights that flew to Houston, which has two airports: "IAH" and "HOU".
+
+```{r}
+filter(flights, dest == 'IAH' | dest == 'HOU' )
+```
+
+## Question 3
+
+#### How many flights have a missing dep_time? Write some code that computes that answer.
+
++ There are 8,255 flights with missing departure times.
+
+```{r}
+nrow(filter(flights, is.na(dep_time)))
+```
+
+## Question 4
+
+#### Write an arrange expression that returns all flights sorted be decreasing departure delay. (The first flight should have a/the greatest departure delay.)
+
+```{r}
+arrange(flights, desc(dep_delay))
+```
+
+## Question 5
+
+#### Write a mutate expression that adds a column mph that gives the speed in miles per hour.
+
+```{r}
+flights_mph <- select(flights, 
+  year:day,
+  distance, 
+  air_time
+)
+mutate(flights_mph,
+       hours = air_time / 60,
+       mph = distance / hours
+)
+```

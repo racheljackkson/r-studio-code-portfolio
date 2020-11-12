@@ -1,0 +1,107 @@
+---
+title: "A1-Rachel-Jackson"
+author: "Rachel Jackson"
+date: "9/3/2020"
+output:
+  pdf_document: default
+  html_document: default
+---
+
+# Prompt
+
+Make four ggplot graphs using this "OJ" data set.
+
+1. Use at least five different ggplot "geoms", one of which must be "geom_histogram".
+
+2. Use "fill", "size", and "shape" ggplot "aesthetics".
+
+3. Make sure each graph has a title and descriptive axes labels.
+
+# Get our data
+
+### Download
+
+Import "OJ" data from R package.
+
+```{r}
+# install.packages("ISLR")
+```
+
+### Use the package
+
+Load "OJ" data into running R environment and look at first 6 lines of data to understand the data better.
+
+```{r}
+library(ISLR)
+head(OJ)
+```
+
+# Graph 1 - Bar Graph
+
+(Used "fill" aesthetic in this graph)
+
+```{r}
+library("ggplot2")
+
+g1 <- ggplot(data = OJ) +
+  geom_bar(mapping = aes(x = StoreID, fill = Purchase), position = "dodge")
+
+g1 + ggtitle("Plot of No. of Purchases \n by Store ID and Purchase Choice") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("Store ID Where Sale Occured") + ylab("No. of Purchases")
+
+```
+
+# Graph 2 -  Boxplot
+
+```{r}
+g2 <- ggplot(OJ, aes(x = Purchase, y = PriceCH)) +
+  geom_boxplot()
+
+g2 + ggtitle("Plot of Citrus Hill (CH) Price by Purchase Choice") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("Purchase of Citrus Hill (CH) or Minute Maid (MM)") + ylab("CH Price ($)")
+```
+
+# Graph 3 - Histogram
+
+(Used "fill" aesthetic in this graph)
+
+```{r}
+g3 <- ggplot(OJ, aes(x=WeekofPurchase, color=Purchase)) +
+  geom_histogram(fill="white", position="dodge") +
+  theme(legend.position="top")
+
+g3 + ggtitle("Plot of No. of Purchases \n by Week and Purchase Choice") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("Week of Purchase") + ylab("No. of Purchases")
+```
+
+# Graph 4 - Point Plot
+
+(Used "size" aesthetic in this graph)
+
+```{r}
+g4 <- ggplot(data = OJ, mapping = aes(x = PriceCH, y = PriceMM)) +
+  geom_point(mapping = aes(size = StoreID)) +
+  geom_smooth()
+
+g4 + ggtitle("Plot of Citrus Hill Price vs Minute Maid Price \n by Store ID") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("CH Price ($)") + ylab("MM Price ($)")
+```
+
+# Graph 5 - Point Plot
+
+(Used "shape" aesthetic in this graph)
+
+```{r}
+g5 <- ggplot(data = OJ, mapping = aes(x = PriceCH, y = PriceMM)) +
+  geom_point(mapping = aes(shape = Purchase)) +
+  geom_smooth()
+
+g5 +  ggtitle("Plot of Citrus Hill Price vs Minute Maid Price \n by Purchase Choice") +
+  theme(plot.title = element_text(hjust = 0.5)) +
+  xlab("CH Price ($)") + ylab("MM Price ($)")
+```
+

@@ -1,0 +1,114 @@
+---
+title: "R Notebook"
+output:
+  html_document:
+    df_print: paged
+---
+
+## Preliminaries
+
+```{r,message=FALSE}
+library(tidyverse)
+```
+
+## Get our data
+
+```{r}
+d <- read.csv("survey-1.csv")
+d
+```
+
+# Graph 1
+
+### Discussion:
+
+*"Plot of Where Respondent Wants to Live Next After Graduation"*
+
++ **Top Preference:** New York (5), Dallas (5)
++ **Lowest Preference:** Washington DC (1)
++ **Overall Observation:** Despite the range of cities or regions observed in the graph, the majority of respondents would like to live in a major city after graduation.
+
+
+```{r, fig.width = 8, fig.height = 8}
+# Graph 1
+  
+ggplot(data = d, 
+       mapping = aes(x = reorder(NextCity,NextCity,function(x)-length(x)))) +
+  geom_bar() +
+  geom_text(
+     aes(label=stat(count)),
+     stat='count',
+     nudge_y=0.125) +
+  coord_flip() +
+  labs(title = "Next City After Graduation", x = "City", y = "No. of Responses") +
+  theme(plot.title = element_text(hjust = 0.5))
+```
+# Graph 2
+
+### Discussion:
+
+*"Plot of Type of Computer by Major"*
+
++ **Overall Observation:** Advertising/Communications is the major with the most Mac users, whereas Business has the most Windows PC users. 
+
+  Both         Mac        Windows         Total
+---------  ----------   -----------     --------
+   2           41            24            67
+ 2.98%       61.19%        35.83%         100%
+
+
+```{r, fig.width = 8, fig.height = 8}
+# Graph 2
+ggplot(data = d, mapping = aes(x = Major)) +
+  geom_bar(aes(y = 100 * (..count..)/sum(..count..))) + 
+  ylim(0,100) +
+  facet_grid(Computer ~ .) +
+  geom_text(
+     aes(label=stat(count)),
+     stat='count',
+     nudge_y=0.125) +
+  labs(title = "Type of Computer by Major", x = "", y = "Percentage") +
+   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1), plot.title = element_text(hjust = 0.5)) 
+```
+# Graph 3
+
+### Discussion:
+
+*"Plot of Sports Fan by Major"*
+
+> Most Amount of Sports Fans to Least Amount by Major:
+
+1. Advertising, Communications
+2. Business
+3. Economics, Policy, Government
+4. Liberal Arts
+5. Engineering/ Science or Math
+
+
+```{r, fig.width = 8, fig.height = 8}
+# Graph 3
+
+ggplot(data = d, aes(x = Major)) +
+  geom_bar(mapping = aes(x = Major, fill = Sports), position = "dodge") + 
+   geom_text(
+     aes(label=stat(count)),
+     stat='count',
+     nudge_y=0.125) +
+  labs(title = "Sports Fan by Major", x = "") +
+   theme(axis.text.x = element_text(angle = 70, vjust = 1, hjust=1), plot.title = element_text(hjust = 0.5)) 
+```
+# Graph 4
+
+### Discussion:
+
+*"Plot of How Much Respondent Likes Math on a Scale of 1-5 by Major"*
+
++ **Overall Observation:** Science/Math, Liberal Arts, and Engineering majors were the only concentrations not to rate their overall liking of math a 1 or 2. Advertising/Communications varied through the scale, having respondents rate 1 through 5 for their liking of math. 
+
+```{r, fig.width = 8, fig.height = 10}
+#Graph 4
+ggplot(data = d, mapping = aes(x = LikeMath, y = Major)) +
+  geom_jitter(size=5, alpha=0.4) +
+  labs(title = "How Much Respondent Likes Math by Major", x = "Rating of 1 (Not Very Much) to 5 (Very Much)", y = "") +
+   theme(plot.title = element_text(hjust = 0.5))
+```

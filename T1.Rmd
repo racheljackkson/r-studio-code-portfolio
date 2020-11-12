@@ -1,0 +1,56 @@
+---
+title: "R Notebook"
+output: html_notebook
+---
+
+# T1 - First Talk
+
+```{r}
+library(skimr)
+library(dplyr)
+skim(iris)
+```
+```{r}
+install.packages("ISLR")
+```
+
+
+```{r}
+library(ISLR)
+
+OJ %>%
+  skim()
+```
+
+```{r}
+skim(OJ) # differentiates variables by class
+```
+
+```{r}
+skim(dplyr::starwars) # built in support for strings, lists and other column classes
+```
+
+```{r}
+skim(OJ) %>%
+  summary()  # summary function
+```
+
+```{r}
+skim(OJ, Purchase, PriceCH) # individual columns can be selected using tidyverse-style selectors
+```
+
+```{r}
+OJ %>%
+  dplyr::group_by(Purchase) %>%
+  skim() # handles grouped data
+```
+```{r}
+skim(iris) # PRINTS HORIZONTALLY
+```
+
+```{r}
+my_skim <- skim_with(numeric = sfl(mad))
+my_skim(iris, Sepal.Length)
+# skim__with function
+```
+
